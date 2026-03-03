@@ -18,6 +18,15 @@ app.use(express.static("public")) // this is to serve static files from the publ
 app.use(cookieParser()) // this is to access and set the cookies from the browser of our user to perform crud operations on the cookies.
 
 
+
+// routes import
+import userRouter from './routes/user.routes.js' // we can give manchaha name when export is default
+
+
+// routes declaration
+// we ave seperated the routes so we have ot use middleware syntax, we can't use app.get
+app.use("/api/v1/users", userRouter) // e.g: http://localhost:8000/api/v1/users/register
+
 export { app }
 
 // MONGODB_URI=mongodb+srv://rafay:rafay123@cluster0.lkctdyh.mongodb.net

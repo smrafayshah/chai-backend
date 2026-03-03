@@ -64,10 +64,10 @@ const userSchema = new Schema(
 
 // .pre means that just before saving data do this method
 userSchema.pre("save", async function (next) { // we cannot use () => {} callback function like this because it doesn't give us the access to use "this".
-    if (!this.isModified("password")) return next() // we are using async await because this is cryptography it takes time to process
+    if (!this.isModified("password")) return next // we are using async await because this is cryptography it takes time to process
 
-    this.password = bcrypt.hash(this.password, 10)
-    next()
+    this.password = await bcrypt.hash(this.password, 10)
+    next
     // in this case we are first checking if password is moified or not, if not then return next means go to next method forgot this one
     // and if password is modified by the user then hash it using bcrypt and then go to the next method.
 })
@@ -79,23 +79,23 @@ userSchema.methods.isPasswordCorrect = async function (password) {
 // generateAccessToken and RefreshToken are for security reasons, GT are short term and RT are long term, 
 // if we use only GT then user will have to login again after the token expires, and if we use only RT then if someone steal the token they can 
 // use it for a long time, so we use both of them, GT for short term and RT for long term, and when GT expires we can use RT to generate a new GT without asking the user to login again.
-userSchema.methods.generateAccessToken = function () { 
+userSchema.methods.generateAccessToken = function () {
     return jwt.sign({ // sign method generate token
-        _id: this._id, 
+        _id: this._id,
         email: this.email,
         username: this.username,
-        fullName: this.fullName 
+        fullName: this.fullName
     },
-        process.env.ACCESS_TOKEN_SECRET, 
+        process.env.ACCESS_TOKEN_SECRET,
         {
-            expiresIn: process.env.ACCESS_TOKEN_EXPIRY 
+            expiresIn: process.env.ACCESS_TOKEN_EXPIRY
         }
     )
 }
 
 // Used to generate new access tokens without logging in again
 userSchema.methods.generateRefreshToken = function () {
-    return jwt.sign({ 
+    return jwt.sign({
         _id: this._id,
 
     },

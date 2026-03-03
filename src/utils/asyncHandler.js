@@ -7,7 +7,6 @@ const asyncHandler = (requestHandler) => { // this is a higher-order function th
             .catch((err) => next(err))
     }
 }
-
 export { asyncHandler }
 
 // const asynchandlers = (requestHandler) => {

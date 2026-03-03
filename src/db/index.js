@@ -4,7 +4,7 @@ import { DB_NAME } from "../constants.js";
 const connectDB = async () => {
     try {
 
-        // mconnectionInstance is the connection object returned by mongoose.connect() method and its holding the response coming from mongodb  server
+        // connectionInstance is the connection object returned by mongoose.connect() method and its holding the response coming from mongodb  server
         const connectionInstance = await mongoose.connect(`${process.env.MONGODB_URI}/${DB_NAME}`)
         console.log(`\n MongoDB connected !! DB HOST: ${connectionInstance.connection.host}`); // jo bhi connection instance m respond arha h usme s mongoDB k url m s host lelen qnke production m different tarah k servers hotey h to host s pata lagjata is wqt is server pr h
 

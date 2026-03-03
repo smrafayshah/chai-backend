@@ -1,5 +1,5 @@
 import { v2 as cloudinary } from "cloudinary";
-import fs from "fs";
+import fs from "fs"; 
 
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -16,8 +16,10 @@ const uploadOnCloudinary = async (localFilePath) => {
             resource_type: "auto"
         })
         // file uploaded successfully
-        console.log("File has been uploaded succesfully on clooudinary", response.url);
+        //console.log("File has been uploaded succesfully on clooudinary", response.url);
 
+        fs.unlinkSync(localFilePath)
+        // remove the locally saved temporary file as the upload operation got successful
         return response;
 
     }
